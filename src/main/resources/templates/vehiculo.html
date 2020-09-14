@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html ng-app="vehiculos">
+    <head>
+        <meta charset="UTF-8" />
+        <!-- Bootstrap core CSS -->
+        <link href="../static/css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+        <title>Mantenimiento de Vehiculos</title>
+    </head>
+
+    <body ng-app="kafkaspringboot" ng-controller="VehiculosController" ng-init="getVehiculos()">
+
+        <div class="container pt-3 " >
+            <div class="row">
+                <h3>Mantenimiento de vehiculos</h3>
+            </div>
+            <div class="row">
+                <form>
+
+                    <div class="form-group row">
+                        <label for="puertasInput" class="col-sm-5 col-form-label">N. de puertas</label>
+                        <div class="col-sm-6">
+                            <input type="number" class="form-control" id="puertasInput" ng-model="puertas">
+                        </div>
+                    </div>
+                    <div class="form-group row ">
+                        <label for="ventanasInput"  class="col-sm-5 col-form-label">Num. de ventanas</label>
+                        <div class="col-sm-6">
+                            <input type="number" class="form-control" id="ventanasInput" ng-model="ventanas">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="llantasInput" class="col-sm-5 col-form-label">Num. de llantas</label>
+                        <div class="col-sm-6">
+                            <input type="number" class="form-control" id="llantasInput" ng-model="llantas">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="pasajerosInput" class="col-sm-5 col-form-label">Num. de pasajeros</label>
+                        <div class="col-sm-6">
+                            <input type="number" class="form-control" id="pasajerosInput" ng-model="pasajeros">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="asientosInput" class="col-sm-5 col-form-label">Num. de asientos</label>
+                        <div class="col-sm-6">
+                            <input type="number" class="form-control" id="asientosInput" ng-model="asientos">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="descripcionInput" class="col-sm-5 col-form-label">Descripcion</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="descripcionInput" ng-model="descripcion">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="colorInput" class="col-sm-5 col-form-label">Color</label>
+                        <div class="col-sm-6">
+                            <select name="cars" id="colorInput" ng-model="color" class="form-control">
+                                <option value="Rojo">Rojo</option>
+                                <option value="Blanco">Blanco</option>
+                                <option value="Negro">Negro</option>
+                                <option value="Azul">Azul</option>
+                                <option value="Naranja">Naranja</option>
+                                <option value="Amarillo">Amarillo</option>
+                                <option value="Morado">Morado</option>
+                                <option value="Vino">Vino</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="marcaInput" class="col-sm-5 col-form-label">Marca</label>
+                        <div class="col-sm-6">
+                            <select name="marcas" id="marcaInput" ng-model="marca" class="form-control">
+                                <option value="Toyota">Toyota</option>
+                                <option value="Nissan">Nissan</option>
+                                <option value="Kia">Kia</option>
+                                <option value="Honda">Honda</option>
+                                <option value="Hyundai">Hyundai</option>
+                                <option value="Lamborghini">Lamborghini</option>
+                                <option value="Audi">Audi</option>
+                                <option value="Ferrari">Ferrari</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="precioInput" class="col-sm-5 col-form-label">Precio</label>
+                        <div class="col-sm-6">
+                            <input type="number" class="form-control" id="precioInput" ng-model="precio">
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button  class="btn btn-primary" ng-click="addVehiculo()">Agregar vehiculo</button>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+        <!--<br>-->
+        <div class="container pt-3" ng-show="vehiculos != null">
+            <table class="table table-hover table-bordered  table-sm">
+                <thead>
+                    <tr class="table-primary">
+                        <th>Puertas </th>
+                        <th>Ventanas </th>
+                        <th>Llantas </th>
+                        <th>Pasajeros </th>
+                        <th> Asientos</th>
+                        <th> Descripción</th>
+                        <th> Color</th>
+                    </tr>
+                </thead>
+                <tr ng-repeat="vehiculo in vehiculos">
+                    <td>{{vehiculo.puertas}}</td>
+                    <td>{{vehiculo.ventanas}}</td>
+                    <td>{{vehiculo.llantas}}</td>
+                    <td>{{vehiculo.pasajeros}}</td>
+                    <td>{{vehiculo.asientos}}</td>
+                    <td>{{vehiculo.descripcion}}</td>
+                    <td>{{vehiculo.color}}</td>
+                </tr>
+            </table>
+
+        </div>
+
+
+
+
+
+      <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-resource.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-touch.js"></script>
+  <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.3.3.js"></script>
+        <script src="./js/services.js"></script>
+    </body>
+</html>
