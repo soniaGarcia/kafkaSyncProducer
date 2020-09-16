@@ -25,10 +25,6 @@ public class KafkaConfig {
         ConcurrentMessageListenerContainer<String, ResultMsj> replyContainer = factory.createContainer("result");
         replyContainer.getContainerProperties().setMissingTopicsFatal(false);
         replyContainer.getContainerProperties().setGroupId("vehiculo-result-group");
-
-        Properties props = new Properties();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "http://172.17.0.8:9092");
-        replyContainer.getContainerProperties().setConsumerProperties(props);
         return new ReplyingKafkaTemplate<>(pf, replyContainer);
     }
 
@@ -37,9 +33,6 @@ public class KafkaConfig {
             ConcurrentKafkaListenerContainerFactory<String, ResultMsj> factory) {
         KafkaTemplate<String, ResultMsj> kafkaTemplate = new KafkaTemplate<>(pf);
         factory.getContainerProperties().setMissingTopicsFatal(false);
-        Properties props = new Properties();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "http://172.17.0.8:9092");
-        factory.getContainerProperties().setConsumerProperties(props);
         factory.setReplyTemplate(kafkaTemplate);
         return kafkaTemplate;
     }
