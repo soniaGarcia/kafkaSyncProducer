@@ -7,6 +7,8 @@ import com.prueba.apache.kafka.repository.VehiculoRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,7 +39,8 @@ public class VehiculosRest {
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public void addVehiculo(@RequestBody @Valid VehiculoMsj vehiculo) throws ExecutionException, InterruptedException {
+    public void addVehiculo(@RequestBody @Valid VehiculoMsj vehiculo) {
+
         Vehiculo persistVehiculo = new Vehiculo();
         persistVehiculo.asientos = vehiculo.asientos;
         persistVehiculo.color = vehiculo.color;
@@ -51,6 +54,10 @@ public class VehiculosRest {
         vehiculo.codigo = persistVehiculo.codigo;
         persistVehiculo = vehiculoRepository.save(persistVehiculo);
         vehiculo.id = persistVehiculo.id;
-        productorKafka.sendCustomMessage(vehiculo);
+        try {
+            productorKafka.sendCustomMessage(vehiculo);
+        } catch (ExecutionException | InterruptedException ex) {
+            vehiculoRepository.delete(persistVehiculo);
+        }
     }
 }
