@@ -1,6 +1,7 @@
 package com.prueba.apache.kafka.rest;
 
 import com.prueba.apache.kafka.helper.ProductorKafka;
+import com.prueba.apache.kafka.mensajeDTO.ResultMsj;
 import com.prueba.apache.kafka.mensajeDTO.VehiculoMsj;
 import com.prueba.apache.kafka.model.Vehiculo;
 import com.prueba.apache.kafka.repository.VehiculoRepository;
@@ -39,7 +40,7 @@ public class VehiculosRest {
     }
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
-    public void addVehiculo(@RequestBody @Valid VehiculoMsj vehiculo) {
+    public ResultMsj addVehiculo(@RequestBody @Valid VehiculoMsj vehiculo) {
 
         Vehiculo persistVehiculo = new Vehiculo();
         persistVehiculo.asientos = vehiculo.asientos;
@@ -54,10 +55,13 @@ public class VehiculosRest {
         vehiculo.codigo = persistVehiculo.codigo;
         persistVehiculo = vehiculoRepository.save(persistVehiculo);
         vehiculo.id = persistVehiculo.id;
+        ResultMsj result = null;
         try {
-            productorKafka.sendCustomMessage(vehiculo);
+            result = productorKafka.sendCustomMessage(vehiculo);
+            
         } catch (ExecutionException | InterruptedException ex) {
             vehiculoRepository.delete(persistVehiculo);
         }
+        return result;
     }
 }

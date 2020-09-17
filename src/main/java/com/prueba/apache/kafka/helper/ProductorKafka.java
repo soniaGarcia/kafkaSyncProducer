@@ -26,12 +26,13 @@ public class ProductorKafka {
      * @throws java.lang.InterruptedException
      */
     @SneakyThrows
-    public void sendCustomMessage(VehiculoMsj vehiculo) throws ExecutionException, InterruptedException {
+    public ResultMsj sendCustomMessage(VehiculoMsj vehiculo) throws ExecutionException, InterruptedException {
         ProducerRecord<String, VehiculoMsj> record = new ProducerRecord<>(kafkaTopic, null, vehiculo.getId().getCounter() + "", vehiculo);
         RequestReplyFuture<String, VehiculoMsj, ResultMsj> future = replyingKafkaTemplate.sendAndReceive(record);
         ConsumerRecord<String, ResultMsj> response = future.get();
         ResultMsj val = response.value();
         System.out.println("codigo: " + val.getCodigo() + " descripcion:" + val.getDescripcion());
+        return val;
 
     }
 

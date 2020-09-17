@@ -23,10 +23,10 @@ app.controller('VehiculosController', ['$scope', '$http',
                         precio: $scope.precio
                     }
             ).success(function (data) {
-                alert('Vehiculo creado correctamente');
+                alert('Vehiculo creado correctamente'+' Resultado inventario codigo: '+ data.codigo+', Descripcion: '+data.descripcion);
                 $scope.getVehiculos();
             }).error(function (data) {
-                 alert('Se ha producido un error');
+                 alert('Se ha producido un error'+' Resultado inventario codigo: '+ data.codigo+', Descripcion: '+data.descripcion);
             });
         }
 
